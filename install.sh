@@ -15,6 +15,7 @@ pip install --upgrade numpy
 pip install --upgrade scipy
 pip install --upgrade cython
 pip install --upgrade h5py
+pip install --upgrade pillow
 pip install --upgrade matplotlib
 pip install --upgrade git+https://github.com/Theano/Theano.git
 pip install --upgrade git+https://github.com/fchollet/keras.git
