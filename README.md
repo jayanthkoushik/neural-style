@@ -1,2 +1,2 @@
 # neural-style
-Keras implementation of 'A Neural Algorithm of Artistic Style'
+Theano implementation of 'A Neural Algorithm of Artistic Style'.
