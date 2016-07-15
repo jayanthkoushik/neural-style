@@ -1,3 +1,0 @@
-[submodule "theano-utils"]
-	path = theano-utils
-	url = https://github.com/jayanthkoushik/theano-utils
