@@ -299,4 +299,4 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
-data/vgg16_weights.h5
+data/vgg19
