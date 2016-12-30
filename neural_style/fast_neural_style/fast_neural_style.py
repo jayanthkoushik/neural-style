@@ -94,13 +94,13 @@ if args.subcommand == "train":
             print("Error: unrecognized style layer: {}".format(layer_name))
             sys.exit(1)
         slf_X = T.reshape(sl_X, (sl_X.shape[0], sl_X.shape[1], sl_X.shape[2]*sl_X.shape[3]))
-        gram_X = T.batched_tensordot(slf_X, slf_X.dimshuffle(0, 2, 1)) / slf_X.size * slf_X.shape[0]
+        gram_X = T.batched_tensordot(slf_X, slf_X.dimshuffle(0, 2, 1), axes=1) / slf_X.size * slf_X.shape[0]
         slf_Xtr = T.reshape(sl_Xtr, (sl_Xtr.shape[0], sl_Xtr.shape[1], sl_Xtr.shape[2]*sl_Xtr.shape[3]))
-        gram_Xtr = T.batched_tensordot(slf_Xtr, slf_Xtr.dimshuffle(0, 2, 1)) / slf_Xtr.size * slf_Xtr.shape[0]
+        gram_Xtr = T.batched_tensordot(slf_Xtr, slf_Xtr.dimshuffle(0, 2, 1), axes=1) / slf_Xtr.size * slf_Xtr.shape[0]
 
         get_gram_X = theano.function([], gram_X)
-        style_gram = theano.shared(get_gram_X(), borrow=True)
-        style_loss = style_loss + T.sum(T.sqr(style_gram - gram_Xtr)) / Xtr.shape[0]
+        style_gram = theano.shared(get_gram_X()[0, :, :])
+        style_loss = style_loss + T.sum(T.sqr(style_gram.dimshuffle("x", 0, 1) - gram_Xtr)) / Xtr.shape[0]
 
     # Build the TV loss.
     tv_loss = (T.sum(T.abs_(Xtr[:, :, 1:, :] - Xtr[:, :, :-1, :])) + T.sum(T.abs_(Xtr[:, :, :, 1:] - Xtr[:, :, :, :-1]))) / Xtr.shape[0]
@@ -122,13 +122,16 @@ if args.subcommand == "train":
 
             if (tri + 1) % args.val_every == 0 or (tri + 1) == args.train_iterations:
                 batch_val_losses = []
+                n_val = 0
                 with tqdm(desc="Validating", file=sys.stdout, ncols=100, total=args.val_iterations, ascii=False, unit="iteration", leave=False) as valbar:
                     for vali in range(args.val_iterations):
                         X.set_value(val_batch_generator.get_batch(), borrow=True)
                         loss = get_loss().item()
-                        batch_val_losses.append(loss*X.shape[0].eval())
+                        batch_size = X.shape[0].eval()
+                        n_val += batch_size
+                        batch_val_losses.append(loss*batch_size)
                         valbar.update(1)
-                mean_val_loss = np.sum(batch_val_losses) / args.val_iterations
+                mean_val_loss = np.sum(batch_val_losses) / n_val
                 val_losses.append(mean_val_loss)
 
                 if args.test_image is not None:
