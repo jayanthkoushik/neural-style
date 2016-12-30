@@ -28,13 +28,25 @@ def add_imagenet_mean(img):
     img[2, :, :] += 123.68
 
 
-def load_and_preprocess_img(filename, size=None):
+def load_and_preprocess_img(filename, size=None, center_crop=False):
     """Load an image, and pre-process it as needed by models."""
     try:
-        img = imread(filename)
+        img = imread(filename, mode="RGB")
     except OSError as e:
         print(e)
         sys.exit(1)
+
+    if center_crop:
+        # Extract a square crop from the center of the image.
+        cur_shape = img.shape[:2]
+        shorter_side = min(cur_shape)
+        longer_side_xs = max(cur_shape) - shorter_side
+        longer_side_start = int(longer_side_xs / 2.)
+        longer_side_slice = slice(longer_side_start, longer_side_start + shorter_side)
+        if shorter_side == cur_shape[0]:
+            img = img[:, longer_side_slice, :]
+        else:
+            img = img[longer_side_slice, :, :]
 
     if size is not None:
         # Resize the image.
