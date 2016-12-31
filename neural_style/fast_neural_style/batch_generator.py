@@ -1,3 +1,4 @@
+import sys
 from multiprocessing import Process, Queue
 from random import sample
 
@@ -27,6 +28,9 @@ class BatchGenerator:
     @staticmethod
     def generate_batches(batchq, imdir, num_batches, batch_size, image_size):
         image_paths = list_pictures(imdir)
+        if not image_paths:
+            print("Error: no images found in {}".format(imdir))
+            sys.exit(1)
         for _  in range(num_batches):
             batch_image_paths = sample(image_paths, batch_size)
             batch = np.vstack([load_and_preprocess_img(image_path, image_size, center_crop=True) for image_path in batch_image_paths])

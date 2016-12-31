@@ -45,6 +45,10 @@ eval_arg_parser.add_argument("--model", type=str, required=True)
 
 args = main_arg_parser.parse_args()
 
+if args.subcommand is None:
+    print("Error: specify either train or eval")
+    sys.exit(1)
+
 # Build transformer model.
 X = theano.shared(np.array([[[[]]]], dtype=floatX))
 weights = None if args.subcommand == "train" else args.model
@@ -53,8 +57,12 @@ Xtr = transformer_net.output
 get_Xtr = theano.function([], Xtr)
 
 if args.subcommand == "train":
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
+    try:
+        if not os.path.exists(args.output_dir):
+            os.makedirs(args.output_dir)
+    except OSError as e:
+        print(e)
+        sys.exit(1)
 
     # Prepare batch generators.
     train_batch_generator = BatchGenerator(args.train_dir, args.train_iterations, args.batch_size, args.content_size)
@@ -140,16 +148,19 @@ if args.subcommand == "train":
                     deprocess_img_and_save(test_tr, os.path.join(args.output_dir, "test_iter_{}.jpg".format(tri + 1)))
 
     # Save weights and losses.
-    with open(os.path.join(args.output_dir, "train_losses.pkl"), "wb") as f:
-        pickle.dump(train_losses, f)
-    with open(os.path.join(args.output_dir, "val_losses.pkl"), "wb") as f:
-        pickle.dump(val_losses, f)
-    transformer_net.save_weights(os.path.join(args.output_dir, "model.h5"), overwrite=True)
+    try:
+        with open(os.path.join(args.output_dir, "train_losses.pkl"), "wb") as f:
+            pickle.dump(train_losses, f)
+        with open(os.path.join(args.output_dir, "val_losses.pkl"), "wb") as f:
+            pickle.dump(val_losses, f)
+        transformer_net.save_weights(os.path.join(args.output_dir, "model.h5"), overwrite=True)
+    except OSError as e:
+        print(e)
+        sys.exit(1)
 
 else:
     content_image = load_and_preprocess_img(args.content_image, args.content_size)
     X.set_value(content_image)
     output_image = get_Xtr()
-    print(output_image)
     deprocess_img_and_save(output_image, args.output_image)
 

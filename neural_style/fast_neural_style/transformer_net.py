@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import theano.tensor as T
 from keras.layers import Input, Conv2D, Activation, Lambda, merge
@@ -90,6 +92,10 @@ def get_transformer_net(X, weights=None):
 
     net = Model(input=input_, output=y)
     if weights is not None:
-        net.load_weights(weights)
+        try:
+            net.load_weights(weights)
+        except OSError as e:
+            print(e)
+            sys.exit(1)
     return net
 
