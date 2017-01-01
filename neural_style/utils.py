@@ -92,7 +92,8 @@ def get_adam_updates(f, params, lr=10., b1=0.9, b2=0.999, e=1e-8, dec=5e-3, norm
     t_u = (t, t + 1)
     m_us = [(m, b1 * m + (1. - b1) * g) for m, g in zip(ms, gs)]
     v_us = [(v, b2 * v + (1. - b2) * T.sqr(g)) for v, g in zip(vs, gs)]
-    lr_hat =  (lr / (1. + t_u[1] * dec)) * T.sqrt(1. - T.pow(b2, t_u[1])) / (1. - T.pow(b1, t_u[1]))
-    param_us = [(param,  T.cast(param - lr_hat * m_u[1] / (T.sqrt(v_u[1]) + e), floatX)) for m_u, v_u, param in zip(m_us, v_us, params)]
+    t_u_f = T.cast(t_u[1], floatX)
+    lr_hat =  (lr / (1. + t_u_f * dec)) * T.sqrt(1. - T.pow(b2, t_u_f)) / (1. - T.pow(b1, t_u_f))
+    param_us = [(param,  param - lr_hat * m_u[1] / (T.sqrt(v_u[1]) + e)) for m_u, v_u, param in zip(m_us, v_us, params)]
     return m_us + v_us + param_us + [t_u]
 

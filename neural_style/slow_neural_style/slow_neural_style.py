@@ -48,7 +48,7 @@ except AttributeError:
 get_content_target = theano.function([], content_layer)
 content_target_np = get_content_target()
 content_target = theano.shared(content_target_np, borrow=True)
-content_loss = T.sum(T.sqr(content_layer - content_target)) / content_target_np.size
+content_loss = T.sum(T.sqr(content_layer - content_target)) / T.cast(content_target_np.size, floatX)
 
 # Build the style loss.
 style_loss = 0.
@@ -60,7 +60,7 @@ for layer_name in args.style_layers:
         print("Error: unrecognized style layer: {}".format(layer_name))
         sys.exit(1)
     style_layer_flat = T.reshape(style_layer, (style_layer.shape[1], -1))
-    gram_target = T.dot(style_layer_flat, style_layer_flat.T) / style_layer_flat.size
+    gram_target = T.dot(style_layer_flat, style_layer_flat.T) / T.cast(style_layer_flat.size, floatX)
     get_gram_target = theano.function([], gram_target)
     style_gram_target = theano.shared(get_gram_target(), borrow=True)
     style_loss = style_loss + T.sum(T.sqr(gram_target - style_gram_target))

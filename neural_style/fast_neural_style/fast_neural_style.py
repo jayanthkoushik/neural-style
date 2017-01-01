@@ -89,7 +89,7 @@ if args.subcommand == "train":
     except AttributeError:
         print("Error: unrecognized content layer: {}".format(args.content_layer))
         sys.exit(1)
-    content_loss = T.sum(T.sqr(cl_X - cl_Xtr)) / cl_X.size
+    content_loss = T.sum(T.sqr(cl_X - cl_Xtr)) / T.cast(cl_X.size, floatX)
 
     # Build the style loss.
     style_loss = 0.
@@ -102,16 +102,16 @@ if args.subcommand == "train":
             print("Error: unrecognized style layer: {}".format(layer_name))
             sys.exit(1)
         slf_X = T.reshape(sl_X, (sl_X.shape[0], sl_X.shape[1], sl_X.shape[2]*sl_X.shape[3]))
-        gram_X = T.batched_tensordot(slf_X, slf_X.dimshuffle(0, 2, 1), axes=1) / slf_X.size * slf_X.shape[0]
+        gram_X = (T.batched_tensordot(slf_X, slf_X.dimshuffle(0, 2, 1), axes=1) / T.cast(slf_X.size, floatX)) * T.cast(slf_X.shape[0], floatX)
         slf_Xtr = T.reshape(sl_Xtr, (sl_Xtr.shape[0], sl_Xtr.shape[1], sl_Xtr.shape[2]*sl_Xtr.shape[3]))
-        gram_Xtr = T.batched_tensordot(slf_Xtr, slf_Xtr.dimshuffle(0, 2, 1), axes=1) / slf_Xtr.size * slf_Xtr.shape[0]
+        gram_Xtr = (T.batched_tensordot(slf_Xtr, slf_Xtr.dimshuffle(0, 2, 1), axes=1) / T.cast(slf_Xtr.size, floatX)) * T.cast(slf_Xtr.shape[0], floatX)
 
         get_gram_X = theano.function([], gram_X)
         style_gram = theano.shared(get_gram_X()[0, :, :])
-        style_loss = style_loss + T.sum(T.sqr(style_gram.dimshuffle("x", 0, 1) - gram_Xtr)) / Xtr.shape[0]
+        style_loss = style_loss + T.sum(T.sqr(style_gram.dimshuffle("x", 0, 1) - gram_Xtr)) / T.cast(Xtr.shape[0], floatX)
 
     # Build the TV loss.
-    tv_loss = (T.sum(T.abs_(Xtr[:, :, 1:, :] - Xtr[:, :, :-1, :])) + T.sum(T.abs_(Xtr[:, :, :, 1:] - Xtr[:, :, :, :-1]))) / Xtr.shape[0]
+    tv_loss = (T.sum(T.abs_(Xtr[:, :, 1:, :] - Xtr[:, :, :-1, :])) + T.sum(T.abs_(Xtr[:, :, :, 1:] - Xtr[:, :, :, :-1]))) / T.cast(Xtr.shape[0], floatX)
 
     # Build the total loss, and optimization, validation funciton.
     loss = (args.content_weight * content_loss) + (args.style_weight * style_loss) + (args.tv_weight * tv_loss)

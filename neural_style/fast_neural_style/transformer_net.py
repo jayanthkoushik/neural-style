@@ -20,7 +20,7 @@ class InstanceNormalization(Layer):
         super().build(input_shape)
 
     def call(self, x, mask=None):
-        hw = x.shape[2] * x.shape[3]
+        hw = T.cast(x.shape[2] * x.shape[3], floatX)
         mu = x.sum(axis=-1).sum(axis=-1) / hw
         mu_vec = mu.dimshuffle(0, 1, "x", "x")
         sig2 = T.square(x - mu_vec).sum(axis=-1).sum(axis=-1) / hw
