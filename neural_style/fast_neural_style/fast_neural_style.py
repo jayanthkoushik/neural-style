@@ -93,7 +93,7 @@ if args.subcommand == "train":
 
     # Build the style loss.
     style_loss = 0.
-    X.set_value(style_image, borrow=True)
+    X.set_value(style_image)
     for layer_name in args.style_layers:
         try:
             sl_X = perceptual_net_X.get_layer(layer_name).output
@@ -101,9 +101,9 @@ if args.subcommand == "train":
         except AttributeError:
             print("Error: unrecognized style layer: {}".format(layer_name))
             sys.exit(1)
-        slf_X = T.reshape(sl_X, (sl_X.shape[0], sl_X.shape[1], sl_X.shape[2]*sl_X.shape[3]))
+        slf_X = T.reshape(sl_X, (sl_X.shape[0], sl_X.shape[1], -1))
         gram_X = (T.batched_tensordot(slf_X, slf_X.dimshuffle(0, 2, 1), axes=1) / T.cast(slf_X.size, floatX)) * T.cast(slf_X.shape[0], floatX)
-        slf_Xtr = T.reshape(sl_Xtr, (sl_Xtr.shape[0], sl_Xtr.shape[1], sl_Xtr.shape[2]*sl_Xtr.shape[3]))
+        slf_Xtr = T.reshape(sl_Xtr, (sl_Xtr.shape[0], sl_Xtr.shape[1], -1))
         gram_Xtr = (T.batched_tensordot(slf_Xtr, slf_Xtr.dimshuffle(0, 2, 1), axes=1) / T.cast(slf_Xtr.size, floatX)) * T.cast(slf_Xtr.shape[0], floatX)
 
         get_gram_X = theano.function([], gram_X)
