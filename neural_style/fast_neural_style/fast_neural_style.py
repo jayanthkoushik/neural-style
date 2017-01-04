@@ -36,6 +36,7 @@ train_arg_parser.add_argument("--lr-decay", type=float, default=2e-4)
 train_arg_parser.add_argument("--output-dir", type=str, required=True)
 train_arg_parser.add_argument("--test-image", type=str, default=None)
 train_arg_parser.add_argument("--test-size", type=int, default=None)
+train_arg_parser.add_argument("--checkpoint", action="store_true")
 
 eval_arg_parser = subparsers.add_parser("eval")
 eval_arg_parser.add_argument("--content-image", type=str, required=True)
@@ -141,6 +142,9 @@ if args.subcommand == "train":
                         valbar.update(1)
                 mean_val_loss = np.sum(batch_val_losses) / n_val
                 val_losses.append(mean_val_loss)
+
+                if args.checkpoint:
+                    transformer_net.save_weights(os.path.join(args.output_dir, "model_checkpoint_{}.h5".format(tri + 1)), overwrite=True)
 
                 if args.test_image is not None:
                     X.set_value(test_image, borrow=True)
