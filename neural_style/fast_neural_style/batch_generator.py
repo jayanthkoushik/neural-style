@@ -7,11 +7,13 @@ from keras.preprocessing.image import list_pictures
 
 from neural_style.utils import load_and_preprocess_img
 
+DEFAULT_MAX_QSIZE = 1000
+
 
 class BatchGenerator:
 
     def __init__(self, imdir, num_batches, batch_size, image_size, max_qsize=None):
-        max_qsize = max_qsize if max_qsize is not None else num_batches
+        max_qsize = max_qsize if max_qsize is not None else DEFAULT_MAX_QSIZE
         self.batchq = Queue(max_qsize)
         self.generator_process = Process(target=BatchGenerator.generate_batches, args=(self.batchq, imdir, num_batches, batch_size, image_size))
         self.generator_process.start()
