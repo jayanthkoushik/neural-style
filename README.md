@@ -1,5 +1,5 @@
 # neural-style
-This repository contains Theano+Keras implementations of two algorithms for artistic style transfer. The algorithms can be used to mix the content of an image with the style of another image. For example, here is a photograph of the Gates Center at Carnegie Mellon Univeristy rendered in the style of Francis Picabia's *Udnie*. Pre-trained models, and additional examples can be found [on my website](https://www.cs.cmu.edu/~jkoushik/neural_style.html).
+This repository contains Theano+Keras implementations of two algorithms for artistic style transfer. The algorithms can be used to mix the content of an image with the style of another image. For example, here is a photograph of the Gates Center at Carnegie Mellon Univeristy rendered in the style of Francis Picabia's *Udnie*. Pre-trained models, and additional examples can be found on <a href="https://www.cs.cmu.edu/~jkoushik/neural_style.html">my website</a>.
 
 <p align="center">
     <img src="images/udnie.jpg" height="253px">
@@ -48,7 +48,7 @@ There are several command line arguments. Many arguments are the same as for the
 * `--test-image`: during every validation run, evaluate on this image and save the result. The default (`None`) is to not use any test image.
 * `--test-size`: resize the test image as described for the optimization approach. The default (`None`) is to not resize.
 
-The training script will write files to the output directory. Results on the test image (if provided) will be available as `test_iter_<iterations>.jpg`. After training is complete, training and validation losses will be written to `train_losses.pkl` and `val_losses.pkl` respectively, and the final model will be written to `model.h5`. You can also find pre-trained models [here](https://www.cs.cmu.edu/~jkoushik/neural_style.html). To evaluate a trained model on a new image, the usage is
+The training script will write files to the output directory. Results on the test image (if provided) will be available as `test_iter_<iterations>.jpg`. After training is complete, training and validation losses will be written to `train_losses.pkl` and `val_losses.pkl` respectively, and the final model will be written to `model.h5`. You can also find pre-trained models <a href="https://www.cs.cmu.edu/~jkoushik/neural_style.html">here</a>. To evaluate a trained model on a new image, the usage is
 ```
 python neural_style/fast_neural_style/fast_neural_style.py eval --content-image </path/to/content/image> --output-image </path/to/output/image> --model </path/to/model/file>
 ```
