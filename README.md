@@ -2,8 +2,8 @@
 This repository contains Theano+Keras implementations of two algorithms for artistic style transfer. The algorithms can be used to mix the content of an image with the style of another image. For example, here is a photograph of the Gates Center at Carnegie Mellon Univeristy rendered in the style of a stained glass painting. Pre-trained models, and additional examples can be found on <a href="https://www.cs.cmu.edu/~jkoushik/neural_style.html">my website</a>.
 
 <p align="center">
-    <img src="images/stained_glass.jpg" height="253px">
-    <img src="images/ghc.jpg" height="253px">
+    <img src="images/stained_glass.jpg" height="236px">
+    <img src="images/ghc.jpg" height="236px">
     <img src="images/ghc_stained_glass.jpg" height="400px">
 </p>
 
