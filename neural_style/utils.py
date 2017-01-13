@@ -4,6 +4,7 @@ import theano
 import theano.tensor as T
 import numpy as np
 from scipy.misc import imread, imsave, imresize
+from scipy.ndimage.filters import median_filter
 from keras.applications import VGG16, VGG19, ResNet50
 
 floatX = theano.config.floatX
@@ -73,6 +74,7 @@ def deprocess_img_and_save(img, filename):
     add_imagenet_mean(img)
     img = img[::-1].transpose((1, 2, 0))
     img = np.clip(img, 0, 255).astype(np.uint8)
+    img = median_filter(img, size=(3, 3, 1))
     try:
         imsave(filename, img)
     except OSError as e:

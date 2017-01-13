@@ -89,8 +89,7 @@ def get_transformer_net(X, weights=None):
     y = conv_layer(y, 32, 3, upsample=2)
     y = conv_layer(y, 3, 9, only_conv=True)
     y = Activation("tanh")(y)
-    y = Lambda(lambda x: (x * 150) + 127.5, output_shape=(3, None, None))(y)
-    y = Lambda(lambda x: x - np.array([103.939, 116.779, 123.68], dtype=floatX).reshape(1, 3, 1, 1), output_shape=(3, None, None))(y)
+    y = Lambda(lambda x: x * 150, output_shape=(3, None, None))(y)
 
     net = Model(input=input_, output=y)
     if weights is not None:
