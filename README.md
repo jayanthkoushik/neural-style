@@ -1,10 +1,10 @@
 # neural-style
-This repository contains Theano+Keras implementations of two algorithms for artistic style transfer. The algorithms can be used to mix the content of an image with the style of another image. For example, here is a photograph of the Gates Center at Carnegie Mellon Univeristy rendered in the style of Francis Picabia's *Udnie*. Pre-trained models, and additional examples can be found on <a href="https://www.cs.cmu.edu/~jkoushik/neural_style.html">my website</a>.
+This repository contains Theano+Keras implementations of two algorithms for artistic style transfer. The algorithms can be used to mix the content of an image with the style of another image. For example, here is a photograph of the Gates Center at Carnegie Mellon Univeristy rendered in the style of a stained glass painting. Pre-trained models, and additional examples can be found on <a href="https://www.cs.cmu.edu/~jkoushik/neural_style.html">my website</a>.
 
 <p align="center">
-    <img src="images/udnie.jpg" height="253px">
+    <img src="images/stained_glass.jpg" height="253px">
     <img src="images/ghc.jpg" height="253px">
-    <img src="images/ghc_udnie.jpg" height="400px">
+    <img src="images/ghc_stained_glass.jpg" height="400px">
 </p>
 
 There are two available implementations. `neural_style/slow_neural_style` contains the optimization based approach described in [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576) by Leon A. Gatys, Alexander S. Ecker, and Matthias Bethge. The algorithm is very general, in the sense that it can combine arbitrary content and style images, but the generation process is slow - it can take several minutes to generate a reasonably sized image. The implementation here mostly follows the original algorithm, except for a few details. There is an additional total-variation loss term, and the optimization is perfomed with Adam instead of L-BFGS.
