@@ -1,7 +1,6 @@
 ---
 title: neural-style
 layout: default
-permalink: neural_style
 ---
 
 This page contains pre-trained models and examples from
