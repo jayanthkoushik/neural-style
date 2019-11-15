@@ -1,9 +1,0 @@
-{% capture iname %}{{include.source | split: "/" | last | split: "." | first}}{% endcapture %}
-{% capture iext %}{{include.source | split: "." | last}}{% endcapture %}
-<div class="row img-display">
-<div class="col-10 col-sm-10 col-md-8 col-lg-8 col-xl-8">
-<a href="imgs/{{include.source}}" data-toggle="lightbox" data-gallery="{{iname}}-single">
-<img src="imgs/{{include.source}}/../../thumbs/{{iname}}_thumb.{{iext}}" alt="{{iname}}" class="img-fluid img-thumbnail">
-</a>
-</div>
-</div>
