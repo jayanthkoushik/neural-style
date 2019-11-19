@@ -1,5 +1,5 @@
 ---
-permalink: assets/main
+permalink: neural_style
 ---
 {%- capture customjs -%}
   {%- include_relative _custom.js -%}
