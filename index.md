@@ -1,6 +1,10 @@
 ---
 title: neural-style
 layout: default
+extcss:
+- assets/main.css
+extjs:
+- assets/main.js
 ---
 
 This page contains pre-trained models and examples from
