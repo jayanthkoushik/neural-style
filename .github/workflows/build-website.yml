@@ -10,9 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: jayanthkoushik/build-webpage@master
+    - uses: jayanthkoushik/paje@master
       with:
-        setupscript: sh .github/utils/setup.sh
+        setupscript: |
+          cp index.md /www/
+          cp -r css /www/
+          cp -r js /www/
+          cp -r imgs /www/
+          cp _includes/* /www/_includes/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
