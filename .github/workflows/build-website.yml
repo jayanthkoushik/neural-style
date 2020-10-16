@@ -4,12 +4,15 @@ on:
   push:
     branches:
     - gh-pages-source
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+      with:
+        ref: gh-pages-source
     - uses: jayanthkoushik/paje@master
       with:
         setupscript: |
