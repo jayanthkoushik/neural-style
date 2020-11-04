@@ -109,7 +109,10 @@ if args.subcommand == "train":
 
         get_gram_X = theano.function([], gram_X)
         style_gram = theano.shared(get_gram_X()[0, :, :])
-        style_loss = style_loss + T.sum(T.sqr(style_gram.dimshuffle("x", 0, 1) - gram_Xtr)) / T.cast(Xtr.shape[0], floatX)
+        style_loss += T.sum(
+            T.sqr(style_gram.dimshuffle("x", 0, 1) - gram_Xtr)
+        ) / T.cast(Xtr.shape[0], floatX)
+
 
     # Build the TV loss.
     tv_loss = (T.sum(T.abs_(Xtr[:, :, 1:, :] - Xtr[:, :, :-1, :])) + T.sum(T.abs_(Xtr[:, :, :, 1:] - Xtr[:, :, :, :-1]))) / T.cast(Xtr.shape[0], floatX)

@@ -63,7 +63,7 @@ for layer_name in args.style_layers:
     gram_target = T.dot(style_layer_flat, style_layer_flat.T) / T.cast(style_layer_flat.size, floatX)
     get_gram_target = theano.function([], gram_target)
     style_gram_target = theano.shared(get_gram_target(), borrow=True)
-    style_loss = style_loss + T.sum(T.sqr(gram_target - style_gram_target))
+    style_loss += T.sum(T.sqr(gram_target - style_gram_target))
 
 # Build the TV loss.
 tv_loss = T.sum(T.abs_(X[:, :, 1:, :] - X[:, :, :-1, :])) + T.sum(T.abs_(X[:, :, :, 1:] - X[:, :, :, :-1]))

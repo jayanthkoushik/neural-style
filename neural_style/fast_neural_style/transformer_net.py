@@ -56,10 +56,7 @@ class ReflectPadding2D(Layer):
 
 
 def conv_layer(in_, nb_filter, filter_length, subsample=1, upsample=1, only_conv=False):
-    if upsample != 1:
-        out = UpSampling2D(size=(upsample, upsample))(in_)
-    else:
-        out = in_
+    out = UpSampling2D(size=(upsample, upsample))(in_) if upsample != 1 else in_
     padding = int(np.floor(filter_length / 2))
     out = ReflectPadding2D((padding, padding))(out)
     out = Conv2D(nb_filter, filter_length, filter_length, subsample=(subsample, subsample), border_mode="valid")(out)
