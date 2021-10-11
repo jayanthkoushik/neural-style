@@ -2,9 +2,11 @@
 title: neural-style
 layout: default
 extcss:
-- neural_style.css
+- ekko-lightbox.min.css
+- local.scss
 extjs:
-- neural_style.js
+- ekko-lightbox.min.js
+- local.js
 ---
 
 This page contains pre-trained models and examples from

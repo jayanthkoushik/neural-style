@@ -15,8 +15,6 @@ jobs:
       with:
         setupscript: |
           cp index.md /www/
-          cp -r css /www/
-          cp -r js /www/
           cp -r imgs /www/
           cp _includes/* /www/_includes/
       env:

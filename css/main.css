@@ -1,8 +1,0 @@
----
-permalink: neural_style
----
-{%- capture customcss -%}
-  {%- include_relative _custom.scss -%}
-{%- endcapture -%}
-{%- include_relative _ekko-lightbox.min.css -%}
-{{- customcss | sassc -}}
