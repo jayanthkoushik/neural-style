@@ -1,12 +1,6 @@
 ---
 title: neural-style
 layout: default
-extcss:
-- ekko-lightbox.min.css
-- local.scss
-extjs:
-- ekko-lightbox.min.js
-- local.js
 nomath: true
 ---
 
