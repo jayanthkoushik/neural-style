@@ -7,6 +7,7 @@ extcss:
 extjs:
 - ekko-lightbox.min.js
 - local.js
+nomath: true
 ---
 
 This page contains pre-trained models and examples from
