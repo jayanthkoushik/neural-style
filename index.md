@@ -1,6 +1,5 @@
 ---
 title: neural-style
-layout: default
 nomath: true
 ---
 
