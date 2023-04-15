@@ -1,5 +1,7 @@
 {% capture iname %}{{include.source | split: "/" | last | split: "." | first}}{% endcapture %}
 {% capture iext %}{{include.source | split: "." | last}}{% endcapture %}
+<div class="row justify-content-center">
+<div class="col-11 col-sm-10 col-md-8 offset-md-1 col-lg-7 offset-lg-0 px-0">
 <div class="row">
 <div class="col-10 col-sm-10 col-md-8 col-lg-8 col-xl-8">
 <a href="imgs/{{include.source}}" data-bs-toggle="modal" data-bs-target="#{{iname}}-modal-single">
@@ -12,5 +14,7 @@
 <p class="mx-auto my-auto text-center">
 <img src="imgs/{{include.source}}" alt="{{iname}}" class="img-fluid rounded">
 </p>
+</div>
+</div>
 </div>
 </div>
